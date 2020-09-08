@@ -2,17 +2,17 @@ import $ from "jquery";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/styles.css";
-import { temp } from "./js/one.js";
+// import { temp } from "./js/one.js";
 // import * as oneFunctions from "./js/one.js";
 // example function call: oneFunctions.temp();
 
 $(document).ready(function () {
-  $("#weatherLocation").click(function () {
-    const zipcode = $("#zip").val();
-    $("#zip").val("");
+  $("#go").click(function () {
+    const search = $("#search").val();
+    $("#search").val("");
 
     let request = new XMLHttpRequest();
-    const url = `http://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&appid=${process.env.API_KEY}`;
+    const url = `http://api.giphy.com/v1/gifs/search?q=${search}&api_key=${process.env.API_KEY}&limit=5`;
     console.log(process.env.API_KEY);
 
     request.onreadystatechange = function () {
@@ -26,9 +26,10 @@ $(document).ready(function () {
     request.send();
 
     function getElements(response) {
-      $(".nameOfCity").text(`You requested information on ${response.name}.`);
-      $(".showHumidity").text(`The humidity in ${zipcode} is ${response.main.humidity}%`);
-      $(".showTemp").text(`The temperature in fahrenheit is  ${temp(response.main.temp)} degrees.`);
+      $(".imgs").append(
+        `<img src ="${response.data[0].images.original.url}" alt="${response.data[0].title}">`
+      );
+      console.log(response.data[0].url);
     }
   });
 });
